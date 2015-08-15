@@ -1,6 +1,5 @@
 package com.akadko.yandexmoneytest;
 
-import com.oissela.software.multilevelexpindlistview.MultiLevelExpIndListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

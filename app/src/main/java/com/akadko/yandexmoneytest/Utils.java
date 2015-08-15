@@ -1,5 +1,7 @@
 package com.akadko.yandexmoneytest;
 
+import android.content.Context;
+
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -55,5 +57,12 @@ public class Utils {
             "A","B","V","G","D","E","E","Zh","Z","I","Y","K","L","M","N","O","P",
             "R","S","T","U","F","H","C","Ch","Sh","Sch","","Y","","E","Yu","Ya", "_", "",""
     };
+
+    public static int getPaddingPixels(Context context, int dpValue) {
+        // Get the screen's density scale
+        final float scale = context.getResources().getDisplayMetrics().density;
+        // Convert the dps to pixels, based on density scale
+        return (int) (dpValue * scale + 0.5f);
+    }
 }
 

@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.oissela.software.multilevelexpindlistview.MultiLevelExpIndListAdapter;
-import com.oissela.software.multilevelexpindlistview.Utils;
 
 /**
  * Created by User on 12.08.2015.
