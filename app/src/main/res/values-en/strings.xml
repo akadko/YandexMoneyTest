@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Yandex.Test</string>
+    <string name="refresh">Refresh</string>
+    <string name="conn_error">Connection error</string>
+    <string name="retry">Retry</string>
+    <string name="server_error">Server error</string>
+</resources>

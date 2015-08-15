@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Яндекс.Тест</string>
+    <string name="refresh">Обновить</string>
+    <string name="server_error">Произошла ошибка на сервере</string>
+    <string name="conn_error">Ошибка подключения</string>
+    <string name="retry">Попробовать снова</string>
+</resources>
