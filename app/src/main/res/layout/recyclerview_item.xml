@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/title_textview"
         android:padding="15dp"
-        android:textSize="15sp"
+        android:textSize="20sp"
         />
 
     <ImageView
