@@ -35,9 +35,9 @@ public class RecyclerViewFragment extends Fragment {
     private LinearLayoutManager mLayoutManager;
     private List<ShopItem> mList;
 
-    ProgressBar pb;
-    TextView tv;
-    Button button;
+    ProgressBar mProgressBar;
+    TextView mTextView;
+    Button mButton;
 
     private static final String URL = "https://money.yandex.ru/api/categories-list";
 
@@ -56,10 +56,10 @@ public class RecyclerViewFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        pb = (ProgressBar) rootView.findViewById(R.id.progressBar);
-        tv = (TextView) rootView.findViewById(R.id.textView_error);
-        button = (Button) rootView.findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+        mTextView = (TextView) rootView.findViewById(R.id.textView_error);
+        mButton = (Button) rootView.findViewById(R.id.button);
+        mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 refresh();
@@ -110,26 +110,26 @@ public class RecyclerViewFragment extends Fragment {
     }
 
     public class Loader extends AsyncTask<String, Void, String> {
-        SharedPreferences sp;
+        SharedPreferences mSharedPreferences;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
             mRecyclerView.setVisibility(View.GONE);
-            tv.setVisibility(View.GONE);
-            button.setVisibility(View.GONE);
+            mTextView.setVisibility(View.GONE);
+            mButton.setVisibility(View.GONE);
             if (mAdapter.getItemCount() > 0) mAdapter.clear();
-            pb.setVisibility(View.VISIBLE);
-            sp = getActivity().getSharedPreferences(Utils.SETTINGS, Context.MODE_PRIVATE);
+            mProgressBar.setVisibility(View.VISIBLE);
+            mSharedPreferences = getActivity().getSharedPreferences(Utils.SETTINGS, Context.MODE_PRIVATE);
         }
 
         @Override
         protected String doInBackground(String... params) {
-            boolean isFirstVisit = sp.getBoolean(Utils.IS_VISITED, false);
+            boolean isVisited = mSharedPreferences.getBoolean(Utils.IS_VISITED, false);
 
             int forceLoad = Integer.parseInt(params[1]);
             String content;
-            if (!isFirstVisit || forceLoad > 0)
+            if (!isVisited || forceLoad > 0)
                 try {
                     content = getContent(params[0]);
                 } catch (IOException e) {
@@ -145,17 +145,17 @@ public class RecyclerViewFragment extends Fragment {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-            pb.setVisibility(View.INVISIBLE);
+            mProgressBar.setVisibility(View.INVISIBLE);
 
             List<ShopItem> list = new ArrayList<>();
 
-            int version = sp.getInt(Utils.DB_VERSION, 0);
+            int version = mSharedPreferences.getInt(Utils.DB_VERSION, 0);
 
             //Loading from database
             if (s.equals(LOAD_FROM_DB)) {
 
-                tv.setVisibility(View.GONE);
-                button.setVisibility(View.GONE);
+                mTextView.setVisibility(View.GONE);
+                mButton.setVisibility(View.GONE);
 
                 DBHandler dbHandler =
                         new DBHandler(getActivity(), DBHandler.DATABASE_NAME, null, version);
@@ -166,15 +166,15 @@ public class RecyclerViewFragment extends Fragment {
 
                 mRecyclerView.setVisibility(View.GONE);
 
-                tv.setVisibility(View.VISIBLE);
-                button.setVisibility(View.VISIBLE);
+                mTextView.setVisibility(View.VISIBLE);
+                mButton.setVisibility(View.VISIBLE);
             }
 
             //Loading from JSON and upgrading database
             if (!s.equals(LOAD_FROM_DB) && !s.equals(LOADING_ERROR)) {
 
-                tv.setVisibility(View.GONE);
-                button.setVisibility(View.GONE);
+                mTextView.setVisibility(View.GONE);
+                mButton.setVisibility(View.GONE);
 
                 try {
                     JSONHelper mHelper = new JSONHelper(s);
@@ -189,9 +189,9 @@ public class RecyclerViewFragment extends Fragment {
                     e.printStackTrace();
 
                     mRecyclerView.setVisibility(View.GONE);
-                    tv.setVisibility(View.VISIBLE);
-                    tv.setText(R.string.server_error);
-                    button.setVisibility(View.VISIBLE);
+                    mTextView.setVisibility(View.VISIBLE);
+                    mTextView.setText(R.string.server_error);
+                    mButton.setVisibility(View.VISIBLE);
                 }
             }
             mAdapter.addAll(list);

@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 
 /**
- * Created by User on 12.08.2015.
+ * Created by akadko on 12.08.2015.
  */
 public class ShopAdapter extends MultiLevelExpIndListAdapter {
 

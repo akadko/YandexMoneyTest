@@ -27,13 +27,13 @@ public class DBHandler extends SQLiteOpenHelper {
 
     int mVersion;
 
-    SharedPreferences sp;
+    SharedPreferences mSharedPreferences;
 
     public DBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, null, version);
         mVersion = version;
-        sp = context.getSharedPreferences(Utils.SETTINGS, Context.MODE_PRIVATE);
-        SharedPreferences.Editor e = sp.edit();
+        mSharedPreferences = context.getSharedPreferences(Utils.SETTINGS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor e = mSharedPreferences.edit();
         e.putInt(Utils.DB_VERSION, mVersion);
         e.commit();
     }
@@ -44,10 +44,10 @@ public class DBHandler extends SQLiteOpenHelper {
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TITLE + " TEXT,"
                 + KEY_IS_GROUP + " INTEGER," + KEY_GROUP_SIZE + " INTEGER" + ")";
         db.execSQL(CREATE_ITEMS_TABLE);
-        SharedPreferences.Editor e = sp.edit();
+        SharedPreferences.Editor e = mSharedPreferences.edit();
         e.putBoolean(Utils.IS_VISITED, true);
         e.commit();
-        int i = sp.getInt(Utils.DB_VERSION, 0);
+        int i = mSharedPreferences.getInt(Utils.DB_VERSION, 0);
     }
 
     @Override
@@ -120,15 +120,5 @@ public class DBHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return itemList;
-    }
-
-    public int getItemsCount(String tableName) {
-        String countQuery = "SELECT  * FROM " + tableName;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-        int k = cursor.getCount();
-        cursor.close();
-        db.close();
-        return k;
     }
 }
